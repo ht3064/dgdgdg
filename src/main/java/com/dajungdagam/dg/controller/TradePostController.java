@@ -75,4 +75,12 @@ public class TradePostController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/trade/search")
+	public String search(@RequestParam String keyword, Model model) {
+		List<TradePostDto> tradePostDtoList = tradePostService.searchPosts(keyword);
+		model.addAttribute("TradePostList", tradePostDtoList);
+
+		return "list";
+	}
+
 }

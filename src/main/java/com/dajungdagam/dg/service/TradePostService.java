@@ -20,6 +20,30 @@ public class TradePostService {
     }
 
     @Transactional
+    public List<TradePostDto> searchPosts(String keyword) {
+        List<TradePost> tradePosts = tradePostRepository.findByTitleContaining(keyword);
+        List<TradePostDto> tradePostDtoList = new ArrayList<>();
+
+        if (tradePosts.isEmpty()) return tradePostDtoList;
+
+        for(TradePost tradePost : tradePosts) {
+            tradePostDtoList.add(this.convertEntityToDto(tradePost));
+        }
+
+        return tradePostDtoList;
+    }
+
+    private TradePostDto convertEntityToDto(TradePost tradePost) {
+        return TradePostDto.builder()
+                .id(tradePost.getId())
+                .title(tradePost.getTitle())
+                .content(tradePost.getContent())
+                .user(tradePost.getUser())
+                .createdTime(tradePost.getCreatedTime())
+                .build();
+    }
+
+    @Transactional
     public Long savePost(TradePostDto tradePostDto) {
         return tradePostRepository.save(tradePostDto.toEntity()).getId();
     }
