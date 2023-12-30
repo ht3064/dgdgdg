@@ -59,4 +59,9 @@ public class TradePostService {
 
         return tradePostDto;
     }
+
+    @Transactional
+    public void deletePost(Long id) {
+        tradePostRepository.deleteById(id);
+    }
 }
